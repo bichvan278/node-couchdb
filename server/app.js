@@ -4,39 +4,41 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const cors = require('cors');
 const userRouter = require('./routes/api/user');
+const bookRouter = require('./routes/api/book');
 const couch = require('./db/couch');
 
 var corsOptions = {
-    origin: "http://127.0.0.1:8081"
+    origin: "http://localhost:8080"
 };
 
-const dbname = 'users';
-const dbviewURL = "_design/users_view/_view/view-all";
+// const dbname = 'users';
+// const dbviewURL = "_design/users_view/_view/view-all";
 
 const app = express();
 app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(express.static(path.join(__dirname, '../../library-vue')));
-app.all(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Credentials', 'true');
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-    res.header('Access-Control-Expose-Headers', 'Content-Length');
-    // res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range');
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200);
-    } else {
-        return next();
-    }
-});
+
+// app.all(function (req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Credentials', 'true');
+//     res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+//     res.header('Access-Control-Expose-Headers', 'Content-Length');
+//     // res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range');
+//     if (req.method === 'OPTIONS') {
+//         return res.sendStatus(200);
+//     } else {
+//         return next();
+//     }
+// });
 
 app.use(userRouter);
+app.use(bookRouter);
 
-// app.get('/', (req, res) => {
-//     res.send('NodeJS is working ...')
-//     // res.sendFile(path + "index.html")
-// })
+app.get('/', (req, res) => {
+    res.send('NodeJS is working ...')
+    // res.sendFile(path + "index.html")
+})
 
 
 // Read all doc in users
@@ -117,7 +119,7 @@ app.post('/book/add', (req, res) => {
 //     console.log('Connection is successful')
 // });
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 9000
 app.listen(port, () => {
     console.log('Server is working on port ' + port)
 });
