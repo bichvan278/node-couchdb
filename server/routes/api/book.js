@@ -55,4 +55,26 @@ router.post('/books/addBook', async (req, res) => {
     }
 });
 
+// Create a new book 
+router.post('/book/edit/', async (req, res) => {
+    const id = req.params.id
+    try {
+        const getRev = doc._rev
+        const rev = await db.get({ _rev: getRev })
+        res.send(rev.docs)
+        // const book = {
+        //     name: req.body.name,
+        //     type: req.body.type,
+        //     author: req.body.author,
+        //     producer: req.body.producer,
+        //     amount: req.body.amount,
+        //     updateAt: new Date()
+        // }
+        // await db.insert(book)
+        // res.status(201).send(book)
+    } catch (error) {
+        console.error(error)
+    }
+});
+
 module.exports = router;

@@ -13,7 +13,7 @@
 // });
 
 const couch = require('nano')(
-    { url : "http://admin:12345@localhost:5984"});
+    { url : "http://admin:admin@localhost:5984"});
 const db = couch.use('library');
 
 module.exports = couch;
